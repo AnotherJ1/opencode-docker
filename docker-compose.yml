@@ -13,11 +13,13 @@ services:
         OPENCODE_VERSION: ${OPENCODE_VERSION:-latest}
     image: opencode:local
     container_name: opencode
-    # 仅在容器内监听 0.0.0.0，外部端口绑定到 127.0.0.1
-    # 外部 nginx 反代指向 127.0.0.1:4096 即可
+    # 仅在容器内监听 0.0.0.0，端口绑定到所有网卡
+    # ⚠️ 安全提示：4096 端口将对外暴露，请确保：
+    #   1. 服务器防火墙/安全组限制来源 IP
+    #   2. 或通过外部 nginx 反代 + HTTPS 使用
     command: opencode serve --hostname 0.0.0.0 --port 4096
     ports:
-      - "127.0.0.1:4096:4096"
+      - "0.0.0.0:4096:4096"
     volumes:
       - ./data/share:/home/opencode/.local/share/opencode
       - ./data/state:/home/opencode/.local/state/opencode
