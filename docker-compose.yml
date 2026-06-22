@@ -24,6 +24,8 @@ services:
       - ./data/share:/home/opencode/.local/share/opencode
       - ./data/state:/home/opencode/.local/state/opencode
       - ./data/config:/home/opencode/.config/opencode
+      # 工作目录：放你用 opencode 开发的项目代码
+      - ./data/work:/data/work
     env_file:
       - .env
     restart: unless-stopped
