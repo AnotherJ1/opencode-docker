@@ -1,0 +1,12 @@
+# 敏感文件
+.env
+.domain
+
+# 数据目录
+data/
+nginx/logs/
+nginx/certs/*.pem
+
+# 系统
+.DS_Store
+*.log

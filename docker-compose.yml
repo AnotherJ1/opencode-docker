@@ -1,0 +1,32 @@
+name: opencode
+
+# OpenCode 容器部署
+# 反代/HTTPS 由外部 nginx 自行配置，指向 127.0.0.1:4096
+services:
+  opencode:
+    # 本地构建镜像（不用 ghcr.io 预构建镜像）
+    # 如要切换回官方预构建镜像，注释下面 build + 替换为：image: ghcr.io/pilinux/opencode:1.2.5
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        OPENCODE_VERSION: ${OPENCODE_VERSION:-latest}
+    image: opencode:local
+    container_name: opencode
+    # 仅在容器内监听 0.0.0.0，外部端口绑定到 127.0.0.1
+    # 外部 nginx 反代指向 127.0.0.1:4096 即可
+    command: opencode serve --hostname 0.0.0.0 --port 4096
+    ports:
+      - "127.0.0.1:4096:4096"
+    volumes:
+      - ./data/share:/home/opencode/.local/share/opencode
+      - ./data/state:/home/opencode/.local/state/opencode
+      - ./data/config:/home/opencode/.config/opencode
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4096"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
