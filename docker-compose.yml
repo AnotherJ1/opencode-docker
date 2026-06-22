@@ -30,3 +30,16 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+    # 资源限制：内存 1GB / CPU 1 核
+    # 内存给 Node.js 足够空间处理大对话历史，避免 OOM kill
+    # CPU 1 核够用（LLM 推理在云端，本地只做 IO）
+    # 如服务器内存紧张，可改为 memory: 512m 并加环境变量：
+    #   NODE_OPTIONS=--max-old-space-size=384
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+          cpus: "1.0"
+        reservations:
+          memory: 256m
+          cpus: "0.25"
