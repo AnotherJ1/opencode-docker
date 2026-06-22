@@ -61,10 +61,10 @@ cmd_init() {
         warn ".env 已存在，跳过"
     fi
 
-    # 2. 创建数据目录（容器内 opencode 用户 UID=1000，需要相应属主）
+    # 2. 创建数据目录（容器内 opencode 用户 UID=1001，需要相应属主）
     mkdir -p "$SCRIPT_DIR/data/share" "$SCRIPT_DIR/data/state" "$SCRIPT_DIR/data/config"
-    chown -R 1000:1000 "$SCRIPT_DIR/data" 2>/dev/null || warn "无法 chown，请手动: sudo chown -R 1000:1000 data/"
-    info "已创建数据目录: data/ (属主 1000:1000)"
+    chown -R 1001:1001 "$SCRIPT_DIR/data" 2>/dev/null || warn "无法 chown，请手动: sudo chown -R 1001:1001 data/"
+    info "已创建数据目录: data/ (属主 1001:1001)"
 
     echo ""
     info "初始化完成。接下来："
