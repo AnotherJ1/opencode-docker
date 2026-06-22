@@ -136,8 +136,8 @@ main() {
         exit 0
     fi
 
-    # 处理 help
-    if [[ "$arg" == "--help" || "$arg" == "-h" || -z "$arg" ]]; then
+    # 处理 help（无参数时默认构建 latest，不显示 help）
+    if [[ "$arg" == "--help" || "$arg" == "-h" ]]; then
         cat <<EOF
 OpenCode 镜像本地构建脚本
 

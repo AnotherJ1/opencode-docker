@@ -74,10 +74,15 @@ cmd_init() {
 }
 
 # 本地构建镜像（转发到 build.sh）
+# 无参数时默认构建 latest
 cmd_build() {
     local build_script="$SCRIPT_DIR/build.sh"
     [[ -x "$build_script" ]] || chmod +x "$build_script"
-    "$build_script" "$@"
+    if [[ $# -eq 0 ]]; then
+        "$build_script" latest
+    else
+        "$build_script" "$@"
+    fi
 }
 
 # 启动
